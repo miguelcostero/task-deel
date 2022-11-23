@@ -1,12 +1,23 @@
 const { Router } = require('express');
+const { Op } = require('sequelize');
 const { doesContractBelongToProfile } = require('../helpers/does-contract-belong-to-profile.helper');
 
 const contractsController = Router();
 
-/**
- * FIX ME!
- * @returns contract by id
- */
+contractsController.get('/', async (req, res) => {
+    const { profile } = req;
+    const { Contract } = req.app.get('models');
+
+    const contracts = await Contract.findAll({
+        where: {
+            [profile.type === 'client' ? 'ClientId' : 'ContractorId']: profile.id,
+            status: { [Op.ne]: 'terminated' },
+        },
+    });
+
+    res.json(contracts);
+});
+
 contractsController.get('/:id', async (req, res) => {
     const { Contract } = req.app.get('models');
     const { id } = req.params;
