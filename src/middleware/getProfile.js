@@ -5,4 +5,5 @@ const getProfile = async (req, res, next) => {
     req.profile = profile;
     next();
 };
+
 module.exports = { getProfile };
