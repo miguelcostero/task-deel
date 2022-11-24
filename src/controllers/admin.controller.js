@@ -29,40 +29,40 @@ adminController.get('/best-profession', async (req, res) => {
     const transaction = await sequelize.transaction();
 
     try {
-        const contracts = await Contract.findAll({
+        const profession = await Job.findAll({
             where: {
-                createdAt: {
+                paid: true,
+                paymentDate: {
                     [Op.gte]: start,
                     [Op.lte]: end,
                 },
             },
-            include: [
-                {
-                    model: Job,
-                    attributes: [],
-                    where: { paid: true },
-                },
-                {
+
+            include: {
+                model: Contract,
+                attributes: [],
+                include: {
                     model: Profile,
                     as: 'Contractor',
                     attributes: [],
                     where: { type: 'contractor' },
                 },
-            ],
+            },
+
             attributes: [
-                [sequelize.fn('SUM', sequelize.col('Jobs.price')), 'total'],
-                [sequelize.col('Contractor.id'), 'id'][
-                    (sequelize.literal(`Contractor.firstName || ' ' || Contractor.lastName`), 'fullName')
-                ],
-                [sequelize.col('Contractor.profession'), 'profession'],
+                [sequelize.fn('SUM', sequelize.col('price')), 'total'],
+                [sequelize.col('Contract->Contractor.profession'), 'profession'],
             ],
-            group: [sequelize.col('Contractor.profession')],
-            order: [[sequelize.fn('sum', sequelize.col('Jobs.price')), 'DESC']],
+
+            group: [sequelize.col('Contract->Contractor.profession')],
+            order: [[sequelize.fn('sum', sequelize.col('price')), 'DESC']],
+
+            limit: 1,
             transaction: transaction,
         });
 
         await transaction.commit();
-        return res.json(contracts);
+        return res.json(profession);
     } catch (err) {
         console.error(err);
         await transaction.rollback();
