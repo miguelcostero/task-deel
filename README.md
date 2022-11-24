@@ -86,7 +86,7 @@ Below is a list of the required API's for the application.
 
 1. ***GET*** `/admin/best-profession?start=<date>&end=<date>` - Returns the profession that earned the most money (sum of jobs paid) for any contactor that worked in the query time range.
 
-1. ***GET*** `/admin/best-clients?start=<date>&end=<date>&limit=<integer>` - returns the clients the paid the most for jobs in the query time period. limit query parameter should be applied, default limit is 2.
+1. ***GET*** `/admin/best-clients?start=<date>&end=<date>&limit=<integer>` - returns the clients that paid the most for jobs in the query time period. limit query parameter should be applied, default limit is 2.
 ```
  [
     {
