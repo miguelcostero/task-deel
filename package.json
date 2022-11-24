@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.19.0",
+    "date-fns": "^2.29.3",
     "express": "4.17.1",
     "lodash": "^4.17.21",
     "sequelize": "^6.3.4",

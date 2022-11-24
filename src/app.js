@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./model');
 const { getProfile } = require('./middleware/getProfile');
+
 const contractsController = require('./controllers/contracts.controller');
 const jobsController = require('./controllers/jobs.controller');
 const balancesController = require('./controllers/balances.controller');
+const adminController = require('./controllers/admin.controller');
 
 const app = express();
 
@@ -16,5 +18,6 @@ app.set('models', sequelize.models);
 app.use('/contracts', getProfile, contractsController);
 app.use('/jobs', getProfile, jobsController);
 app.use('/balances', getProfile, balancesController);
+app.use('/admin', getProfile, adminController);
 
 module.exports = app;
