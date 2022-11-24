@@ -4,6 +4,7 @@ const { sequelize } = require('./model');
 const { getProfile } = require('./middleware/getProfile');
 const contractsController = require('./controllers/contracts.controller');
 const jobsController = require('./controllers/jobs.controller');
+const balancesController = require('./controllers/balances.controller');
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.set('models', sequelize.models);
 // routes
 app.use('/contracts', getProfile, contractsController);
 app.use('/jobs', getProfile, jobsController);
+app.use('/balances', getProfile, balancesController);
 
 module.exports = app;
